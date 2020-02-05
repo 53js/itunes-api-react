@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import './Track.scss';
+import { Link } from 'react-router-dom';
 
 const Track = ({ track, onClickTrack }) => {
 	const handleOnClick = useCallback(() => {
@@ -11,7 +12,12 @@ const Track = ({ track, onClickTrack }) => {
 	return (
 		<li className="Track" key={`# ${track.trackId}`} onClick={handleOnClick}>
 			<h1>{track.artistName}</h1>
-			<span>{track.trackName}</span>
+			<span>
+				<Link to={`/itunes/track/${track.trackName}`}>
+					${track.trackName}
+				</Link>
+			</span>
+
 		</li>
 	);
 };
