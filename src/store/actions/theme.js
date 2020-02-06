@@ -1,0 +1,2 @@
+export const TOGGLE_THEME_ACTION = 'TOOGLE_THEME_ACTION';
+export default TOGGLE_THEME_ACTION;

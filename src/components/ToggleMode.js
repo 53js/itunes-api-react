@@ -1,36 +1,40 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Toggle from 'react-toggle';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { TOGGLE_THEME_ACTION } from '../store/actions/theme';
 
 import 'react-toggle/style.css';
 import './ToggleMode.scss';
 
-const ToggleMode = ({ mode, onChange }) => (
-	<div className="ToggleMode">
-		<Toggle
-			id="mode"
-			icons={{
-				checked: (
-					<FontAwesomeIcon icon={faMoon} className="fa faMoon" />
-				),
-				unchecked: (
-					<FontAwesomeIcon icon={faSun} className="fa faSun" />
-				),
-			}}
-			defaultChecked={mode}
-			onChange={onChange}
-		/>
+const ToggleMode = () => {
+	const theme = useSelector((state) => state.theme);
+	const dispatch = useDispatch();
 
-		{/* <label htmlFor="mode">Dark mode</label> */}
-	</div>
-);
+	const handleChangeTheme = () => {
+		dispatch({ type: TOGGLE_THEME_ACTION });
+	};
 
-ToggleMode.propTypes = {
-	mode: PropTypes.bool.isRequired,
-	onChange: PropTypes.func.isRequired,
+	return (
+		<div className="ToggleMode">
+			<Toggle
+				id="mode"
+				icons={{
+					checked: (
+						<FontAwesomeIcon icon={faMoon} className="fa faMoon" />
+					),
+					unchecked: (
+						<FontAwesomeIcon icon={faSun} className="fa faSun" />
+					),
+				}}
+				defaultChecked={theme !== 'light'}
+				onChange={handleChangeTheme}
+			/>
+
+		</div>
+	);
 };
 
 export default ToggleMode;

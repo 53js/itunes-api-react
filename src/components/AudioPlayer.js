@@ -1,38 +1,28 @@
-import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 import './AudioPlayer.scss';
 
-const AudioPlayer = ({ track }) => {
+const AudioPlayer = () => {
 	const audioRef = useRef(null);
-
-	// useEffect(() => {
-	// 	if (track && track.previewUrl) {
-	// 		audioRef.current.play();
-	// 	}
-	// }, [track]);
+	const currentTrack = useSelector((state) => state.player.current);
+	useEffect(() => {
+		if (currentTrack && currentTrack.previewUrl) {
+			audioRef.current.play();
+		}
+	}, [currentTrack]);
 	return (
 		<audio
 			className="AudioPlayer"
 			controls
 			autoPlay
-			src={track && track.previewUrl}
+			src={currentTrack && currentTrack.previewUrl}
 			ref={audioRef}
 		>
 			Your browser does not support the
 			<code>audio</code> element.
 		</audio>
 	);
-};
-
-AudioPlayer.propTypes = {
-	track: PropTypes.shape({
-		previewUrl: PropTypes.string.isRequired,
-	}),
-};
-
-AudioPlayer.defaultProps = {
-	track: null,
 };
 
 export default AudioPlayer;
