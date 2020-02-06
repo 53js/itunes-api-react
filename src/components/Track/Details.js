@@ -1,13 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './Details.scss';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const TrackDetails = ({ track }) => {
-	if (!track) {
-		return (<Redirect to="/itunes/" />);
-	}
+import './Details.scss';
+
+const TrackDetails = () => {
+	// get tracklist from store
+	const tracklist = useSelector((state) => state.track.tracklist);
+	// get trackid from url (with useParams)
+	let { trackid } = useParams();
+	// convert trackid to number
+	trackid = parseInt(trackid, 10);
+	// get the track with the corresponding id in the tracklist
+	const track = tracklist.find((t) => t.trackId === trackid);
+
+	// debug usefull log
+	// console.log({ track, tracklist, trackid });
+
+	// no id in url or id track not found in list redirect to /itunes
+	if (!trackid || !track) return <Redirect to="/itunes" />;
 	return (
 		<section className="TrackDetails">
 			<h1>{track.artistName}</h1>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import fetchItunesSongs from '../lib/fetchItunesSongs';
 
@@ -11,10 +11,12 @@ import SearchHistory from '../components/SearchHistory';
 import SongList from '../components/Track/List';
 import SongSearch from '../components/Track/Search';
 
+import { SET_TRACKLIST_ACTION } from '../store/actions/track';
+
 import './Itunes.scss';
 
 const Itunes = () => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const theme = useSelector((state) => state.theme);
 
 	const [error, setError] = useState(false);
@@ -39,6 +41,10 @@ const Itunes = () => {
 				);
 
 				setTracks(tracksFromResponse);
+				dispatch({
+					type: SET_TRACKLIST_ACTION,
+					list: tracksFromResponse,
+				});
 			}
 		} catch (e) {
 			// eslint-disable-next-line no-console
@@ -67,7 +73,7 @@ const Itunes = () => {
 								loading={loading}
 							/>
 						</Route>
-						<Route path="/itunes/track/:trackname">
+						<Route path="/itunes/track/:trackid">
 							<TrackDetails />
 						</Route>
 					</Switch>

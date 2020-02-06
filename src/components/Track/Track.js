@@ -22,7 +22,7 @@ const Track = ({ track }) => {
 		>
 			<h1>{track.artistName}</h1>
 			<span>
-				${track.trackName}
+				{track.trackName}
 			</span>
 			<br />
 			<button type="button" className="btn" onClick={handleOnClickPlay}>
@@ -31,7 +31,7 @@ const Track = ({ track }) => {
 			</button>
 			<br />
 			<span>
-				<Link to={`/itunes/track/${track.trackName}`}>Voir plus</Link>
+				<Link to={`/itunes/track/${track.trackId}`}>Voir plus</Link>
 			</span>
 		</li>
 	);

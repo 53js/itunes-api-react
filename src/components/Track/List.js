@@ -8,7 +8,6 @@ import Track from './Track';
 import './List.scss';
 
 const TrackList = ({ loading, tracks }) => {
-
 	return (
 		<div className="TrackList">
 			<p>
