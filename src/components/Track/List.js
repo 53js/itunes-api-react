@@ -7,22 +7,20 @@ import Track from './Track';
 
 import './List.scss';
 
-const TrackList = ({ loading, tracks }) => {
-	return (
-		<div className="TrackList">
-			<p>
-				{loading && (
-					<FontAwesomeIcon icon={faSpinner} spin className="fa" />
-				)}
-			</p>
-			<ul>
-				{!loading && (tracks || []).map((t) => (
-					<Track track={t} />
-				))}
-			</ul>
-		</div>
-	);
-};
+const TrackList = ({ loading, tracks }) => (
+	<div className="TrackList">
+		<p>
+			{loading && (
+				<FontAwesomeIcon icon={faSpinner} spin className="fa" />
+			)}
+		</p>
+		<ul>
+			{!loading && (tracks || []).map((t) => (
+				<Track track={t} />
+			))}
+		</ul>
+	</div>
+);
 
 TrackList.propTypes = {
 	loading: PropTypes.bool,
