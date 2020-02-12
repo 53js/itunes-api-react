@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import './Search.scss';
@@ -7,16 +7,16 @@ const Search = memo(({ onClick, onKeyPress }) => {
 	const [term, setTerm] = useState('');
 	const [search, setSearch] = useState([]);
 
-	const handleChange = (e) => {
+	const handleChange = useCallback((e) => {
 		setTerm(e.target.value);
-	};
+	}, []);
 
-	const handleClick = () => {
+	const handleClick = useCallback(() => {
 		const searchTeam = term.trim();
 
 		setSearch([...search, searchTeam]);
 		onClick(searchTeam);
-	};
+	}, [onClick, search, term]);
 
 	return (
 		<div className="TrackSearch">

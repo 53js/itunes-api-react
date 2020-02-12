@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Toggle from 'react-toggle';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,9 +13,9 @@ const ToggleMode = () => {
 	const theme = useSelector((state) => state.theme);
 	const dispatch = useDispatch();
 
-	const handleChangeTheme = () => {
+	const handleChangeTheme = useCallback(() => {
 		dispatch({ type: TOGGLE_THEME_ACTION });
-	};
+	}, [dispatch]);
 
 	return (
 		<div className="ToggleMode">

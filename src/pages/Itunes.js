@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -25,7 +25,7 @@ const Itunes = () => {
 	const [tracks, setTracks] = useState([]);
 	const [searchs, setSearchs] = useState([]);
 
-	const handleSearchClick = async (term) => {
+	const handleSearchClick = useCallback(async (term) => {
 		setLoading(true);
 		setError(false);
 		setSearchs((prev) => [...prev, term]);
@@ -53,7 +53,7 @@ const Itunes = () => {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [dispatch]);
 
 	return (
 		<div className={`Itunes ${theme}`}>
