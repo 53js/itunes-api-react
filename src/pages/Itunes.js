@@ -2,12 +2,11 @@ import {
 	useState, useEffect, useContext, useCallback,
 } from 'react';
 import {
-	Route, Switch, useHistory, useRouteMatch,
+	Routes, Route, useNavigate, useMatch,
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 import { fetchItunesSongs } from '../lib/fetchItunesSongs';
-
 import { AudioPlayer } from '../components/AudioPlayer';
 import { ToggleModeNight } from '../components/ToggleModeNight';
 import { SearchHistory } from '../components/SearchHistory';
@@ -15,13 +14,13 @@ import { TrackList } from '../components/Track/List';
 import { TrackSearch } from '../components/Track/Search';
 import { TrackDetails } from '../components/Track/Details';
 import { ThemeContext } from '../context/ThemeContext';
-
-import './Itunes.scss';
 import { ADD_TO_HISTORY, HistoryContext } from '../context/HistoryContext';
 
+import './Itunes.scss';
+
 export const Itunes = () => {
-	const match = useRouteMatch();
-	const history = useHistory();
+	const match = useMatch('/itunes/:search');
+	const navigate = useNavigate();
 	const { dispatch } = useContext(HistoryContext);
 	const { theme } = useContext(ThemeContext);
 	const [currentTrack, setCurrentTrack] = useState();
@@ -57,17 +56,17 @@ export const Itunes = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (match.isExact && match.params.search) {
+		if (match && match.params.search) {
 			searchRequest(match.params.search);
 		}
-	}, [match.isExact, match.params.search, searchRequest]);
+	}, [match, searchRequest]);
 
 	const handleClickTrack = (track) => {
 		setCurrentTrack(track);
 	};
 
 	const handleSearchClick = async (term) => {
-		history.push(`/itunes/${term}`);
+		navigate(`/itunes/${term}`);
 	};
 
 	return (
@@ -81,19 +80,18 @@ export const Itunes = () => {
 					<TrackSearch onClick={handleSearchClick} />
 					{noResult && <p>Pas de résultat</p>}
 					{error && <p>Une erreur est survenue</p>}
-
-					<Switch>
-						<Route exact path="/itunes/track/:trackname">
-							<TrackDetails track={currentTrack} />
-						</Route>
-						<Route exact path={['/itunes', '/itunes/:search']}>
-							<TrackList
-								tracks={tracks}
-								onClickTrack={handleClickTrack}
-								loading={loading}
-							/>
-						</Route>
-					</Switch>
+					<Routes>
+						<Route
+							path="/:search/*"
+							element={
+								<TrackList tracks={tracks} onClickTrack={handleClickTrack} loading={loading} />
+							}
+						/>
+						<Route
+							path="/track/:trackname"
+							element={<TrackDetails track={currentTrack} />}
+						/>
+					</Routes>
 				</section>
 				<SearchHistory />
 			</Container>

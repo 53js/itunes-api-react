@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
 	BrowserRouter as Router,
-	Switch,
+	Routes,
 	Route,
 } from 'react-router-dom';
 
@@ -30,21 +30,11 @@ const App = () => {
 		<ThemeContext.Provider value={{ theme, changeThemeContext }}>
 			<HistoryContextProvider>
 				<Router>
-					<Switch>
-						<Route path={[
-							'/itunes/:search',
-							'/itunes',
-						]}
-						>
-							<Itunes />
-						</Route>
-						<Route exact path="/">
-							<Home />
-						</Route>
-						<Route path="*">
-							<Error404 />
-						</Route>
-					</Switch>
+					<Routes>
+						<Route path="/itunes/*" element={<Itunes />} />
+						<Route path="/" element={<Home />} />
+						<Route path="*" element={<Error404 />} />
+					</Routes>
 				</Router>
 			</HistoryContextProvider>
 		</ThemeContext.Provider>

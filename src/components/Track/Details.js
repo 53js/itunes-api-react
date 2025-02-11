@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
-
-import './Details.scss';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 
+import './Details.scss';
+
 export const TrackDetails = ({ track }) => {
 	const { theme } = useContext(ThemeContext);
 	if (!track) {
-		return (<Redirect to="/itunes/" />);
+		return (<Navigate to="/itunes/" />);
 	}
 
 	return (
